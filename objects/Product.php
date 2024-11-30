@@ -2,6 +2,8 @@
 
 namespace objects;
 
+use PDO;
+
 class Product
 {
     private $conn;
@@ -44,5 +46,22 @@ class Product
             return true;
         }
         return false;
+    }
+    public function readOne(){
+        $query="select c.category_name,p.product_id,p.product_name,p.description,c.category_id,
+        p.price,p.created from ".$this->table_name." p left join category c
+        on p.category_id = c.category_id
+        where p.product_id = :product_id";
+        $stmt = $this->conn->prepare($query);
+        $this->product_id=htmlspecialchars(strip_tags($this->product_id));
+        $stmt->bindParam(':product_id',$this->product_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->product_name=$row['product_name'];
+        $this->category_id=$row['category_id'];
+        $this->product_id=$row['product_id'];
+        $this->description=$row['description'];
+        $this->price=$row['price'];
+        $this->created=$row['created'];
     }
 }
