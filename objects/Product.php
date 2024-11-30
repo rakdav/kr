@@ -18,7 +18,7 @@ class Product
     }
     public function read()
     {
-        $query="select c.category_name,p.product_id,p.product_name,p.description,
+        $query="select c.category_name,p.product_id,p.product_name,p.description,c.category_id,
 	            p.price,p.created from ".$this->table_name." p left join category c 
                 on p.category_id = c.category_id 
                 order by p.created desc";

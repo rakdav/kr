@@ -11,7 +11,7 @@ class Database
         try
         {
             $dsn= "pgsql:host=$this->host;port=5432;dbname=$this->db_name;user=$this->username;
-                            password=$this->password";
+                            password=$this->password;";
             $this->conn = new PDO($dsn);
         }
         catch (PDOException $e) {
