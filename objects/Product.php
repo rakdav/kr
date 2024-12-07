@@ -64,4 +64,30 @@ class Product
         $this->price=$row['price'];
         $this->created=$row['created'];
     }
+
+    function update()
+    {
+        $query = "update " . $this->table_name . " set product_name=:product_name,
+                                                 description=:description,
+                                                 price=:price,
+                                                 category_id=:category_id
+                                                 where product_id=:product_id";
+        $stmt = $this->conn->prepare($query);
+        $this->product_name = htmlspecialchars(strip_tags($this->product_name));
+        $this->price = htmlspecialchars(strip_tags($this->price));
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->category_id = htmlspecialchars(strip_tags($this->category_id));
+        $this->product_id = htmlspecialchars(strip_tags($this->product_id));
+
+        $stmt->bindParam(':product_name',$this->product_name);
+        $stmt->bindParam(':description',$this->description);
+        $stmt->bindParam(':price',$this->price);
+        $stmt->bindParam(':category_id',$this->category_id);
+        $stmt->bindParam(':product_id',$this->product_id);
+
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
 }
