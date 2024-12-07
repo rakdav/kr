@@ -90,4 +90,15 @@ class Product
         }
         return false;
     }
+    function delete()
+    {
+        $query = "delete from " . $this->table_name . " where product_id=:product_id";
+        $stmt = $this->conn->prepare($query);
+        $this->product_id=htmlspecialchars(strip_tags($this->product_id));
+        $stmt->bindParam(':product_id',$this->product_id);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
 }
