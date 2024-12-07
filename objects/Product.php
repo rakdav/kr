@@ -92,13 +92,30 @@ class Product
     }
     function delete()
     {
-        $query = "delete from " . $this->table_name . " where product_id=:product_id";
+        $query = "delete from ".$this->table_name." where product_id=:product_id";
         $stmt = $this->conn->prepare($query);
-        $this->product_id=htmlspecialchars(strip_tags($this->product_id));
+        $this->product_id = htmlspecialchars(strip_tags($this->product_id));
         $stmt->bindParam(':product_id',$this->product_id);
         if($stmt->execute()){
             return true;
         }
         return false;
+    }
+    function  search($keyword)
+    {
+        $query="select p.product_name,p.description,p.price,c.category_name
+                from product p join category c 
+                on p.category_id =c.category_id
+                where p.product_name  like ? or p.description like ?
+                or c.category_name like ?
+                order by desc";
+        $stmt = $this->conn->prepare($query);
+        $keyword=htmlspecialchars(strip_tags($keyword));
+        $keyword="%$keyword%";
+        $stmt->bindParam(1,$keyword);
+        $stmt->bindParam(2,$keyword);
+        $stmt->bindParam(3,$keyword);
+        $stmt->execute();
+        return $stmt;
     }
 }

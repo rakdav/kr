@@ -8,7 +8,7 @@ include_once '../config/database.php';
 include_once '../objects/Product.php';
 $database = new Database();
 $db = $database->getConnection();
-$product = new Product($db);
+$product = new \objects\Product($db);
 $data = json_decode(file_get_contents("php://input"));
 $product->product_id = $data->product_id;
 if($product->delete()) {
