@@ -104,11 +104,10 @@ class Product
     function  search($keyword)
     {
         $query="select p.product_name,p.description,p.price,c.category_name
-                from product p join category c 
+                from ".$this->table_name." p join category c 
                 on p.category_id =c.category_id
-                where p.product_name  like ? or p.description like ?
-                or c.category_name like ?
-                order by desc";
+                where p.product_name like ? or p.description like ? or c.category_name like ? order by p.description";
+
         $stmt = $this->conn->prepare($query);
         $keyword=htmlspecialchars(strip_tags($keyword));
         $keyword="%$keyword%";

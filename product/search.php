@@ -19,7 +19,6 @@ header("Access-Control-Allow-Origin: *");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $product_item = array(
-                "product_id" => $product_id,
                 "product_name" => $product_name,
                 "price" => $price,
                 "description" => $description,
